@@ -1,0 +1,10 @@
+{
+  "name": "redux-command-handler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Fabio Elizandro <fabio@elizandro.com.br>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^22.0.4"
+  }
+}
