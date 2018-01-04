@@ -6,17 +6,17 @@
 import React from 'react';
 import { createStore } from 'redux';
 import { connect } from 'react-redux';
-import { createCommandHandler, createCommandMap, commandCreator } from 'redux-command-handler';
+import { createCommandHandler, createCommandMap, commandCreator, parallelizeCommandHandlers } from 'redux-command-handler';
 
 const reducer = (state) => state
 const store = createStore(reducer);
 
 const commandHandler1 = async ({ command, eventDispatcher }) =>;
-const commandHandler2 = ({ command, eventDispatcher }) =>; // not required to be async 
+const commandHandler2 = async ({ command, eventDispatcher }) =>;
 
 const MAP = {
-  'DO_SOMETHING_1': [commandHandler1],
-  'DO_SOMETHING_2': [commandHandler2]
+  'DO_SOMETHING_1': [commandHandler1, commandHandler2],
+  'DO_SOMETHING_2': [parallelizeCommandHandlers(commandHandler1, commandHandler2)]
 };
 
 const commandHandler = createCommandHandler({ commandMap: createCommandMap(MAP), eventDispatcher: store.dispatch });
