@@ -1,14 +1,12 @@
 const parallelizeCommandHandlers = require('./parallelize-command-handlers');
 const commandCreator = require('./command-creator');
+const createCommandMap = require('./create-command-map');
 
 exports.parallelizeCommandHandlers = parallelizeCommandHandlers;
 
 exports.commandCreator = commandCreator;
 
-exports.createCommandMap = map => commandType => {
-  const noopCommand = () => { };
-  return map[commandType] || [noopCommand];
-};
+exports.createCommandMap = createCommandMap;
 
 exports.createCommandHandler = ({ commandMap, eventDispatcher }) => async command => {
   const commandHandlers = commandMap(command.type);
