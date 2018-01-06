@@ -1,0 +1,8 @@
+version: '2'
+services:
+  lib:
+    image: node:8.5.0
+    command: yarn test
+    working_dir: /home/node
+    volumes:
+      - ./:/home/node

@@ -1,0 +1,16 @@
+sudo: required
+
+services:
+  - docker
+
+language: node
+
+before_install:
+  - docker --version
+  - docker-compose --version
+  - docker-compose pull
+
+script:
+  - docker-compose run --rm module yarn install
+  - docker-compose run --rm module yarn test --coverage --forceExit --runInBand --no-cache
+  - docker-compose run --rm module yarn build

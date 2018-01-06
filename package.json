@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "babel src --out-dir lib"
+    "build": "babel src --out-dir lib",
+    "postinstall": "yarn outdated || exit 0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
