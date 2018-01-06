@@ -18,3 +18,10 @@ script:
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+deploy:
+  provider: npm
+  email: "fabio@elizandro.com.br"
+  api_key: $NPM_TOKEN
+  on:
+    branch: master
