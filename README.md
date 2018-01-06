@@ -1,5 +1,6 @@
 # Redux command handler
 
+[![Build Status](https://travis-ci.org/fabioelizandro/redux-command-handler.svg?branch=master)](https://travis-ci.org/fabioelizandro/redux-command-handler)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d24f5963a7dfa50e8b71/maintainability)](https://codeclimate.com/github/fabioelizandro/redux-command-handler/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d24f5963a7dfa50e8b71/test_coverage)](https://codeclimate.com/github/fabioelizandro/redux-command-handler/test_coverage)
 
