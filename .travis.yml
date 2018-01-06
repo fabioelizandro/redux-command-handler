@@ -9,8 +9,14 @@ before_install:
   - docker --version
   - docker-compose --version
   - docker-compose pull
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 
 script:
   - docker-compose run --rm module yarn install
   - docker-compose run --rm module yarn test --coverage --forceExit --runInBand --no-cache
   - docker-compose run --rm module yarn build
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
