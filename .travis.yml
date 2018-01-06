@@ -3,21 +3,12 @@ sudo: required
 services:
   - docker
 
-before_install:
-  - docker --version
-  - docker-compose --version
-  - docker-compose pull
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-
 script:
+  - docker-compose run --rm lib cc-test-reporter before-build
   - docker-compose run --rm lib yarn install
   - docker-compose run --rm lib yarn test --coverage --forceExit --runInBand --no-cache
   - docker-compose run --rm lib yarn build
-
-after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - docker-compose run --rm lib cc-test-reporter after-build --exit-code 0
 
 deploy:
   provider: npm
