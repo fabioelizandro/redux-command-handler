@@ -4,34 +4,42 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/d24f5963a7dfa50e8b71/maintainability)](https://codeclimate.com/github/fabioelizandro/redux-command-handler/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d24f5963a7dfa50e8b71/test_coverage)](https://codeclimate.com/github/fabioelizandro/redux-command-handler/test_coverage)
 
-## Example
 
+`redux-command-handler` is a library that aims to separate commands from events instead of have just actions. Using this libraries all redux actions becames events and events are generate just by commands. 
+
+Commands with side effects are not a problem at all.
+
+## How to use
+
+`get-user-command.js`
+```js
+export default async (commandPayload, eventDispatcher) => {
+  eventDispatcher('FETCHING_USER'); //dispatch event { type: 'FETCHING_USER' } into redux store
+  const userId = commandPayload.id;
+  const user = await fetch(`/user/${userId}`).then(response => response.json());
+  eventDispatcher('FETCHED_USER', user); // event { type: 'FETCHED_USER', payload: {...}}
+};
+```
+
+`command-handler.js`
+```js
+import getUserCommand from './get-user-command';
+import { createCommandHandler } from 'redux-command-handler';
+
+const MAP = { 'GET_USER': [getUserCommand] };
+
+export default createCommandHandler(MAP);
+```
+
+`show-user-button.js`
 ```js
 import React from 'react';
-import { createStore } from 'redux';
-import { connect } from 'react-redux';
-import { createCommandHandler, createCommandMap, commandCreator, parallelizeCommandHandlers } from 'redux-command-handler';
+import commandHandler from './command-handler';
 
-const reducer = (state) => state
-const store = createStore(reducer);
-
-const commandHandler1 = async ({ command, eventDispatcher }) =>;
-const commandHandler2 = async ({ command, eventDispatcher }) =>;
-
-const MAP = {
-  'DO_SOMETHING_1': [commandHandler1, commandHandler2],
-  'DO_SOMETHING_2': [parallelizeCommandHandlers(commandHandler1, commandHandler2)]
-};
-
-const commandHandler = createCommandHandler({ commandMap: createCommandMap(MAP), eventDispatcher: store.dispatch });
-
-const MyComponent = props => {
- return (
-   <button onClick={props.dispatch('DO_SOMETHING')}></button>
- );
+const ShowComponent = props => {
+ return (<button onClick={props.dispatch('GET_USER', { id: props.userId })}>Show User</button>);
 };
 
 const mapStateToProps = state => state;
-const mapDispatchToProps = commandCreator(commandHandler);
-const ConnectedMyComponent = connect(mapStateToProps, mapDispatchToProps)(MyComponent);
+export default connect(mapStateToProps, commandHandler)(ShowComponent);
 ```
