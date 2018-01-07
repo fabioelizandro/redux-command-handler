@@ -1,11 +1,11 @@
 const parallelizeCommandHandlers = require('./parallelize-command-handlers');
-const commandCreator = require('./command-creator');
+const createCommandDispatcher = require('./create-command-dispatcher');
 const createCommandMap = require('./create-command-map');
 const createCommandHandler = require('./create-command-handler');
 
 module.exports = {
   parallelizeCommandHandlers,
-  commandCreator,
+  createCommandDispatcher,
   createCommandMap,
   createCommandHandler
 };
