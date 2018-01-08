@@ -48,9 +48,9 @@ export default connect(mapStateToProps, commandHandler)(ShowComponent);
 ```js
 import payBillCommand from './pay-bill-command';
 import showReceiptCommand from './show-receipt-command';
-import { createCommandHandler, combineCommandHandler } from 'redux-command-handler';
+import { createCommandHandler, combineCommandHandlers } from 'redux-command-handler';
 
-const PAY_BILL = combineCommandHandler(payBillCommand, showReceiptCommand);
+const PAY_BILL = combineCommandHandlers(payBillCommand, showReceiptCommand);
 
 export default createCommandHandler({ PAY_BILL });
 ```
