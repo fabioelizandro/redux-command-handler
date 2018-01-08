@@ -1,6 +1,5 @@
-module.exports = (...handlers) => async (commandPayload, eventDispatcher) => {
-  return handlers.reduce(async (previousHandlerResult, currentHandler) => {
-    await previousHandlerResult;
-    return currentHandler(commandPayload, eventDispatcher);
+module.exports = (...handlers) => (commandPayload, eventDispatcher) => {
+  return handlers.reduce((previousHandlerResult, currentHandler) => {
+    return previousHandlerResult.then(() => currentHandler(commandPayload, eventDispatcher));
   }, Promise.resolve());
 };

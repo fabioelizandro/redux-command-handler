@@ -1,6 +1,6 @@
 module.exports = (...handlers) => {
-  return async ({ command, eventDispatcher }) => {
+  return ({ command, eventDispatcher }) => {
     const handlersResults = handlers.map(handler => handler({ command, eventDispatcher }));
-    return await Promise.all(handlersResults);
+    return Promise.all(handlersResults);
   };
 };

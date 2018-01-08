@@ -1,4 +1,5 @@
 module.exports = map => commandType => {
   const noopCommand = () => { };
-  return map[commandType] || noopCommand;
+  const commandHandler = map[commandType] || noopCommand
+  return (...args) => Promise.resolve(commandHandler.apply(null, args));
 };

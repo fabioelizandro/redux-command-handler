@@ -1,4 +1,4 @@
-module.exports = commandMap => async ({ type, payload }, eventDispatcher) => {
+module.exports = commandMap => ({ type, payload }, eventDispatcher) => {
   const commandHandler = commandMap(type);
-  return await commandHandler(payload, eventDispatcher);
+  return commandHandler(payload, eventDispatcher);
 };
