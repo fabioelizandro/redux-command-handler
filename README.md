@@ -14,21 +14,19 @@ Commands with side effects are not a problem at all.
 `get-user-command.js`
 ```js
 export default async (commandPayload, eventDispatcher) => {
-  eventDispatcher('FETCHING_USER'); //dispatch event { type: 'FETCHING_USER' } into redux store
+  eventDispatcher('USER_REQUESTED'); //dispatch event { type: 'USER_REQUESTED' } into redux store
   const userId = commandPayload.id;
   const user = await fetch(`/user/${userId}`).then(response => response.json());
-  eventDispatcher('FETCHED_USER', user); // event { type: 'FETCHED_USER', payload: {...}}
+  eventDispatcher('USER_LOADED', user); // event { type: 'USER_LOADED', payload: {...}}
 };
 ```
 
 `command-handler.js`
 ```js
-import getUserCommand from './get-user-command';
+import getUserCommand as GET_USER from './get-user-command';
 import { createCommandHandler } from 'redux-command-handler';
 
-const MAP = { 'GET_USER': [getUserCommand] };
-
-export default createCommandHandler(MAP);
+export default createCommandHandler({ GET_USER });
 ```
 
 `show-user-button.js`
@@ -42,4 +40,30 @@ const ShowComponent = props => {
 
 const mapStateToProps = state => state;
 export default connect(mapStateToProps, commandHandler)(ShowComponent);
+```
+
+## Combine commands
+
+`command-handler.js`
+```js
+import payBillCommand from './pay-bill-command';
+import showReceiptCommand from './show-receipt-command';
+import { createCommandHandler, combineCommandHandler } from 'redux-command-handler';
+
+const PAY_BILL = combineCommandHandler(payBillCommand, showReceiptCommand);
+
+export default createCommandHandler({ PAY_BILL });
+```
+
+## Parallelize commands
+
+`command-handler.js`
+```js
+import getUserCommand from './get-user-command';
+import trackGetUserCommand from './track-get-user-command';
+import { createCommandHandler, parallelizeCommandHandler } from 'redux-command-handler';
+
+const GET_USER = parallelizeCommandHandler(getUserCommand, trackGetUserCommand);
+
+export default createCommandHandler({ GET_USER });
 ```
