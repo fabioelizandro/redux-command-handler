@@ -4,3 +4,5 @@
 *.spec.js
 coverage
 src
+Dockerfile
+docker-compose.yml
